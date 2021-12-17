@@ -1,7 +1,9 @@
+/* eslint-disable eqeqeq */
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { dasRutas } = require('./rutas/dasRutas');
+const { inveRutas } = require('./rutas/inveRutas');
 const { registerModel } = require('./modelos/registerModel');
 const { sign } = require('jsonwebtoken');
 const { compare } = require('bcrypt');
@@ -30,13 +32,13 @@ app.post('/', async function (req, res) {
       //     process.env.JWT_SECRET_KEY
       // )
       const cargo = userl.cargo;
-      if (cargo === 'administrador') {
+      if (cargo == 'administrador') {
         return res.status(200).send({
           estado: 'ok',
           msg: 'Logueado',
           data: userl,
         });
-      } else if (cargo === 'produccion') {
+      } else if (cargo == 'produccion') {
         return res.status(200).send({
           estado: 'ok',
           msg: 'Logueado',
@@ -58,11 +60,13 @@ app.post('/', async function (req, res) {
 });
 
 app.use('/dashboard', dasRutas);
-// app.use("/inventario",inveRutas);
+app.use('/inventario', inveRutas);
 // app.use("/produccion", proRutas);
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/zenu')
+  .connect(
+    'mongodb+srv://carlosO:gF0unsXdDHeF1ZZY@zenu.zt7qx.mongodb.net/zenu?retryWrites=true&w=majority'
+  )
   .then((res) => console.log('Conectado a BD'))
   .catch((error) => console.log(error));
 

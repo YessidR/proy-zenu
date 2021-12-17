@@ -13,6 +13,7 @@ const materiaSchema = new Schema({
     cod:{
         type:"string",
         required:true,
+        unique:true,
     },
     unidad_medida:{
         type:"string",
