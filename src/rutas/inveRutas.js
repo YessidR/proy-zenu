@@ -32,5 +32,71 @@ inveRutas.get("/consultar",(req,res)=>{
 
     }
 });
+     
 
+inveRutas.get("/consultar/materia",(req,res)=>{//no es usado
+    try {
+        const {cod}=req.body;
+        materiaModels.find({cod}, function (error, m) {
+            if(error){
+                return res.status(404).send({ estado: "Error", msg: "materia no encontrado"});
+            }else{
+                if(m!== null){
+                    return res.status(200).send({ estado: "ok", msg: "materia encontrada", data: m });
+                }
+                return res.status(200).send({ estado: "Error", msg: "la materia no se encuentra"});
+                
+            }
+            
+            });
+    } catch (error) {
+
+    }
+});
+inveRutas.post("/editar",(req,res)=>{ //nuevo editar
+    try {
+        const data=req.body;
+        const cod=data.cod;
+        const nombre=data.nombre;
+        const descripcion=data.descripcion;
+        const unidad_medida=data.unidad_medida;
+        const cantidad_disponible=data.cantidad_disponible;
+        const valor_unitario=data.valor_unitario;
+        materiaModels.updateOne({cod},{$set:{nombre,descripcion,unidad_medida,cantidad_disponible,valor_unitario}}, function (error, m) {
+            if(error){
+                return res.status(404).send({ estado: "Error", msg: "materia no fue modificada"});
+            }else{
+                if(m!== null){
+                    return res.status(200).send({ estado: "ok", msg: "materia modificada"});
+                }
+                return res.status(200).send({ estado: "Error", msg: "la materia no se pudo modificar"});
+                
+            }
+            
+            });
+    } catch (error) {
+
+    }
+});
+
+inveRutas.post("/eliminar",(req,res)=>{//nuevo eliminar
+    try {
+        const data=req.body;
+        const cod=data.cod;
+        materiaModels.deleteOne({cod}, function (error, m) {
+            if(error){
+                return res.status(404).send({ estado: "Error", msg: "materia no fue eliminada"});
+            }else{
+                if(m!== null){
+                    return res.status(200).send({ estado: "ok", msg: "materia eliminada"});
+                }
+                return res.status(404).send({ estado: "Error", msg: "la materia no se pudo eliminar"});
+                
+            }
+            
+            });
+    } catch (error) {
+
+    }
+});
 exports.inveRutas=inveRutas;

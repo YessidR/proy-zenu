@@ -16,14 +16,12 @@ Esta plantilla incluye:
 - `prettier:fix`, ejecuta prettier en modo de sobre-escritura.
 
 ## Notas carlos
-
-- importante:antes de usar el servidor, debe de borrar el archivo package-lock.json, eliminar la carpeta build, y escribir en la consola npm i, seguido de los siguientes comandos
-
 - instalamos:
 express: npm i express --save
 mongoose: npm i mongoose
 bcrypt: npm install bcrypt
 jsonwebtoken: npm install jsonwebtoken
-babel: npm i -g  @babel/node 
 
-- si clona el proyecto solo con npm i bastaŕa para que funcione el servidor con todo los modulos mencionados arriba. sino te toca instalarlo todo. thanks :) xD
+- importante:antes de usar el servidor, debe de borrar el archivo package-lock.json, y escribir en la consola npm i.
+
+si clona el proyecto solo con npm i bastaŕa para que funcione el servidor con todo los modulos mencionados arriba. sino te toca instalarlo todo. thanks :) xD
