@@ -62,7 +62,7 @@ app.use("/inventario",inveRutas);
 //app.use("/produccion", proRutas);
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/zenu")
+mongoose.connect("mongodb+srv://carlosO:gF0unsXdDHeF1ZZY@zenu.zt7qx.mongodb.net/zenu?retryWrites=true&w=majority")
     .then(res => console.log("Conectado a BD"))
     .catch(error => console.log(error));
 
