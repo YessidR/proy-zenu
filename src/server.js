@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const { dasRutas } = require('./rutas/dasRutas');
 const { inveRutas } = require('./rutas/inveRutas');
+const { proRutas } = require('./rutas/proRutas')
 const { registerModel } = require('./modelos/registerModel');
 const { sign } = require('jsonwebtoken');
 const { compare } = require('bcrypt');
@@ -61,7 +62,7 @@ app.post('/', async function (req, res) {
 
 app.use('/dashboard', dasRutas);
 app.use('/inventario', inveRutas);
-// app.use("/produccion", proRutas);
+app.use("/produccion", proRutas);
 
 mongoose
   .connect(
@@ -73,3 +74,5 @@ mongoose
 app.listen(8082, () => {
   console.log('Servidor corriendo en el puerto 8082');
 });
+
+

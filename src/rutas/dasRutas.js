@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable new-cap */
 const { Router } = require('express');
 const dasRutas = Router();

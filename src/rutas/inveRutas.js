@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable camelcase */
 /* eslint-disable new-cap */
+/* eslint-disable prettier/prettier */
 const { Router } = require('express');
 const { materiaModels } = require('../modelos/materiaModels');
 const inveRutas = Router();
