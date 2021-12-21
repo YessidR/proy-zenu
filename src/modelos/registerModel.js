@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 const { genSalt, hash } = require('bcrypt');

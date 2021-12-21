@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
@@ -25,6 +26,10 @@ const materiaSchema = new Schema({
   },
   valor_unitario: {
     type: 'number',
+    required: true,
+  },
+  estado: {
+    type: 'string',
     required: true,
   },
 });

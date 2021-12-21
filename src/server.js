@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +9,6 @@ const { proRutas } = require('./rutas/proRutas')
 const { registerModel } = require('./modelos/registerModel');
 const { sign } = require('jsonwebtoken');
 const { compare } = require('bcrypt');
-// const { usuarioRutas } = require("./rutas/usuarioRutas");
 
 const app = express();
 app.use(cors()); // Middleware cors
@@ -24,14 +24,6 @@ app.post('/', async function (req, res) {
     const passok = await compare(password, userl.password);
 
     if (passok) {
-      // const token = sign(
-      //     {
-      //         _id: user.id,
-      //         usuario: user.usuario,
-      //         rol: user.rol,
-      //     },
-      //     process.env.JWT_SECRET_KEY
-      // )
       const cargo = userl.cargo;
       if (cargo == 'administrador') {
         return res.status(200).send({
@@ -71,8 +63,8 @@ mongoose
   .then((res) => console.log('Conectado a BD'))
   .catch((error) => console.log(error));
 
-app.listen(8082, () => {
-  console.log('Servidor corriendo en el puerto 8082');
+app.listen(8081, () => {
+  console.log('Servidor corriendo en el puerto 8081');
 });
 
 

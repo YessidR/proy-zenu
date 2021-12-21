@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable camelcase */
 /* eslint-disable new-cap */
-/* eslint-disable prettier/prettier */
+/* eslint-disable camelcase */
 const { Router } = require('express');
 const { materiaModels } = require('../modelos/materiaModels');
 const inveRutas = Router();
@@ -25,7 +24,7 @@ inveRutas.get('/consultar', (req, res) => {
     materiaModels.find({}, function (error, materias) {
       if (error) {
         return res
-          .status(404)
+          .status(500)
           .send({ estado: 'Error', msg: 'Listado de  materia no encontrado' });
       } else {
         if (materias !== null) {
@@ -33,7 +32,7 @@ inveRutas.get('/consultar', (req, res) => {
             .status(200)
             .send({ estado: 'ok', msg: 'Listado de  Ventas', data: materias });
         }
-        return res.status(200).send({
+        return res.status(404).send({
           estado: 'Error',
           msg: 'Listado de materias no se encuentra',
         });
@@ -42,14 +41,17 @@ inveRutas.get('/consultar', (req, res) => {
   } catch (error) {}
 });
 
-inveRutas.get('/consultar/materia', (req, res) => {
+inveRutas.post('/consultar/materia', (req, res) => {
   // no es usado
   try {
+
     const { cod } = req.body;
-    materiaModels.find({ cod }, function (error, m) {
+
+    materiaModels.findOne({ cod }, function (error, m) {
+
       if (error) {
         return res
-          .status(404)
+          .status(500)
           .send({ estado: 'Error', msg: 'materia no encontrado' });
       } else {
         if (m !== null) {
@@ -58,7 +60,7 @@ inveRutas.get('/consultar/materia', (req, res) => {
             .send({ estado: 'ok', msg: 'materia encontrada', data: m });
         }
         return res
-          .status(200)
+          .status(404)
           .send({ estado: 'Error', msg: 'la materia no se encuentra' });
       }
     });
@@ -74,6 +76,7 @@ inveRutas.post('/editar', (req, res) => {
     const unidad_medida = data.unidad_medida;
     const cantidad_disponible = data.cantidad_disponible;
     const valor_unitario = data.valor_unitario;
+    const estado = data.estado;
     materiaModels.updateOne(
       { cod },
       {
@@ -83,6 +86,7 @@ inveRutas.post('/editar', (req, res) => {
           unidad_medida,
           cantidad_disponible,
           valor_unitario,
+          estado,
         },
       },
       function (error, m) {
@@ -110,7 +114,8 @@ inveRutas.post('/eliminar', (req, res) => {
   try {
     const data = req.body;
     const cod = data.cod;
-    materiaModels.deleteOne({ cod }, function (error, m) {
+
+    materiaModels.findOneAndDelete({ cod: { $in: cod } }, function (error, m) {
       if (error) {
         return res
           .status(404)
@@ -128,4 +133,80 @@ inveRutas.post('/eliminar', (req, res) => {
     });
   } catch (error) {}
 });
+
+
+// filtro para todas las materias despachadas
+inveRutas.get('/reportes/despachados', (req, res) => {
+
+  try{
+    materiaModels.find({estado:"despachado"}, function (error, m) {
+
+      if (error) {
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error' });
+      } else {
+        if (m !== null) {
+          return res
+            .status(200)
+            .send({ estado: 'ok', msg: 'ok',data:m });
+        }
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error ' });
+      }
+      });
+   } catch(error){}
+  }
+  );
+
+// filtro para todas las materias sin despachar
+inveRutas.get('/reportes/sindespachar', (req, res) => {
+  try{
+    materiaModels.find({estado:"sindespachar"}, function (error, m) {
+
+      if (error) {
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error' });
+      } else {
+        if (m !== null) {
+          return res
+            .status(200)
+            .send({ estado: 'ok', msg: 'ok',data:m });
+        }
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error' });
+      }
+      });
+   } catch(error){}
+  }
+  );
+
+// filtro para todas las materias sin despachar
+inveRutas.get('/reportes/masvendida', (req, res) => {
+  try{
+    materiaModels.find({}).sort({"cantidad_disponible": 1})
+    .limit(1).exec(function (error, m) {
+
+      if (error) {
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error' });
+      } else {
+        if (m !== null) {
+          return res
+            .status(200)
+            .send({ estado: 'ok', msg: 'ok',data:m, vendida:m[0].nombre});
+        }
+        return res
+          .status(404)
+          .send({ estado: 'Error', msg: 'Error' });
+      }
+      });
+   } catch(error){}
+  }
+  );
+
 exports.inveRutas = inveRutas;
